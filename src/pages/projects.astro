@@ -1,0 +1,50 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+const collection = (await getCollection('org'))
+	.sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+const projects = collection.filter((org: any) => org.data.filetags?.includes('project'));
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<main>
+			<article>
+				<h1><a href="/">Projects</a></h1>
+				<p>Here are my projects, I mainly focus on making some creative, minimal, perfectistic things.</p>
+				<ol reversed>
+					{
+						projects.map((project: any) => (
+							<li>
+								<p>
+									<span class="title" style="margin: 0 0 0.5em 0; padding: 0; line-height: 1.2;">
+										<a href={`/node/${project.slug}/`}>
+											{project.data.title}
+										</a>
+									</span>
+								</p>
+							</li>
+						))
+					}
+				</ol>
+			</article>
+		</main>
+	</body>
+</html>
+
+<style>
+	ol {
+		list-style: decimal-leading-zero;
+		padding-left: 2.4em;
+	}
+	p a {
+		text-decoration: none;
+		color: inherit;
+	}
+</style>

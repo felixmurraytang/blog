@@ -1,0 +1,61 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+const collection = (await getCollection('org'))
+	.sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+
+const orgs = collection.filter((org: any) => {
+    const tags = org.data.filetags || [];
+    return !tags.includes('article') && !tags.includes('project') && !tags.includes('meta');
+});
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<main>
+			<article>
+				<h1><a href="/">Notes</a></h1>
+				<p>Here are my notes, which are short and simple but can be linked to each other.</p>
+				<ul>
+					{
+						orgs.map((org: any) => (
+							<li>
+								<p>
+									<span class="date" style="font-size: 0.9em; margin-right: .6em;">
+										{org.data.date.toLocaleDateString('en-US', {
+											day: '2-digit',
+											month: 'short',
+											year: 'numeric',
+										})}
+									</span>
+									<span class="title" style="margin: 0 0 0.5em 0; padding: 0; line-height: 1.2;">
+										<a href={`/node/${org.slug}/`}>
+											{org.data.title}
+										</a>
+									</span>
+								</p>
+							</li>
+						))
+					}
+				</ul>
+			</article>
+		</main>
+	</body>
+</html>
+
+<style>
+	ul {
+		list-style: none;
+		padding-left: 0;
+	}
+	p a {
+		text-decoration: none;
+		color: inherit;
+	}
+</style>

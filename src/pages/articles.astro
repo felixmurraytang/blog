@@ -1,0 +1,58 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+const collection = (await getCollection('org'))
+	.sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+const orgs = collection.filter((org: any) => org.data.filetags?.includes('article'));
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<main>
+			<article>
+				<h1><a href="/">Articles</a></h1>
+				<p>Here are my blogs, which are mostly about my life and thoughts. combination of knowledge and feelings.</p>
+				<ul>
+					{
+						orgs.map((org: any) => (
+							<li>
+								<p>
+									<span class="date" style="font-size: 0.9em;">
+										{org.data.date.toLocaleDateString('en-US', {
+											month: 'short',
+											year: 'numeric',
+										})}
+									</span>
+									<span class="tag" style="font-size: 0.9em;">
+										{org.data.filetags?.filter((tag: any) => tag !== 'article').map((tag: any) => `#${tag}`).join(' ')}
+									</span>
+									<h2 class="title" style="font-size: 1.2em; margin: 0 0 0.5em 0; padding: 0; line-height: 1.2;">
+										<a href={`/node/${org.slug}/`}>
+											{org.data.title}
+										</a>
+									</h2>
+								</p>
+							</li>
+						))
+					}
+				</ul>
+			</article>
+		</main>
+	</body>
+</html>
+
+<style>
+	ul {
+		list-style: none;
+		padding-left: 0;
+	}
+	h2::before {
+		content: none;
+	}
+</style>
