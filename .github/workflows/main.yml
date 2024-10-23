@@ -1,4 +1,4 @@
-name: deploy to cloudflare pages
+name: blog
 
 on:
   push:
@@ -11,10 +11,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout blog repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Checkout org repository
+      - name: Checkout felixmurraytang/org
         uses: actions/checkout@v4
         with:
           repository: felixmurraytang/org
@@ -24,18 +24,17 @@ jobs:
       - name: Remove unused folder
         run: cd src/content/org && rm -fr journal resume
           
-      - name: Setup Node.js
+      - name: Setup
         uses: actions/setup-node@v4
         with:
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Build
+        run: |
+          npm install
+          npm run build
 
-      - name: Build Astro site
-        run: npm run build
-
-      - name: Publish to Cloudflare Pages
+      - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
