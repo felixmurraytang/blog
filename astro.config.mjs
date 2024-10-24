@@ -8,33 +8,40 @@ import org from './src/lib/astro-org';
 import { customKeywords } from './src/lib/plugins/keyword';
 import { customHeadline } from './src/lib/plugins/headline';
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://blog.felixmurraytang.com',
-	integrations: [
-		org({
-			uniorgPlugins: [
-				customKeywords,
-				customHeadline,
-			],
-			rehypePlugins: [
-				[rehypeAutolinkHeadings, { 
-					behavior: 'wrap',
-					// content: {
-					// 	type: 'element',
-					// 	tagName: 'span',
-					// 	properties: {
-					// 		style: 'color: gray',
-					// 	},
-					// 	children: [{ type: 'text', value: ' #' }]
-					// }
-				}],
-				rehypeHighlight,
-			],
-		}),
-		sitemap(),
+  site: 'https://blog.felixmurraytang.com',
+
+  integrations: [
+      org({
+          uniorgPlugins: [
+              customKeywords,
+              customHeadline,
+          ],
+          rehypePlugins: [
+              [rehypeAutolinkHeadings, { 
+                  behavior: 'wrap',
+                  // content: {
+                  // 	type: 'element',
+                  // 	tagName: 'span',
+                  // 	properties: {
+                  // 		style: 'color: gray',
+                  // 	},
+                  // 	children: [{ type: 'text', value: ' #' }]
+                  // }
+              }],
+              rehypeHighlight,
+          ],
+      }),
+      sitemap(),
 	],
-	prefetch: {
-		prefetchAll: true,
+
+  prefetch: {
+      prefetchAll: true,
 	},
+
+  output: 'hybrid',
+  adapter: cloudflare(),
 });
