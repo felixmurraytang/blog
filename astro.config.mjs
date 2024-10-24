@@ -1,6 +1,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+import cloudflare from '@astrojs/cloudflare';
+import react from '@astrojs/react';
+
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
 
@@ -8,12 +11,9 @@ import org from './src/lib/astro-org';
 import { customKeywords } from './src/lib/plugins/keyword';
 import { customHeadline } from './src/lib/plugins/headline';
 
-import cloudflare from '@astrojs/cloudflare';
-import react from '@astrojs/react';
-
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://blog.felixmurraytang.com',
+  site: 'https://mayphus.org',
 
   integrations: [org({
       uniorgPlugins: [
