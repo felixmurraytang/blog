@@ -1,6 +1,9 @@
-This is the source of [my blog](https://blog.felixmurraytang.com).
+This is the source of [my website](https://mayphus.org/).
 
-It uses [astro-org](https://github.com/rasendubi/uniorg/tree/master/packages/astro-org) and [Astro](https://astro.build).
+It uses,
+
+- [astro-org](https://github.com/rasendubi/uniorg/tree/master/packages/astro-org)
+- [Astro](https://astro.build).
 
 ## Philosophy
 

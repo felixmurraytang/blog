@@ -1,4 +1,4 @@
-name: blog
+name: mayphus.org
 
 on:
   push:
@@ -14,10 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Checkout felixmurraytang/org
+      - name: Checkout mayphus/org
         uses: actions/checkout@v4
         with:
-          repository: felixmurraytang/org
+          repository: mayphus/org
           path: src/content/org
           token: ${{ secrets.BLOG }}
       
@@ -38,4 +38,4 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy dist --project-name ${{ github.event.repository.name }}
+          command: pages deploy dist --project-name mayphus
